@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <title></title>
 </head>
-<%!
-	Connection conn = null;
+<%!Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
 	String sql, wsql;
@@ -29,39 +28,33 @@
 	String hand = request.getParameter("hand");
 	java.sql.Date showdate = new java.sql.Date(date.getYear(),
 			date.getMonth(), date.getDate());
-	String username = (String) session.getAttribute("name");
+	String username = request.getParameter("user");
+
+	wsql = "update tb_Enterprise set EnterpriseSort='" + style
+			+ "',EnterpriseName='" + ename + "',Operation='"
+			+ operation + "',WorkArea='" + area + "',Address='"
+			+ address + "',Phone='" + phone + "',LinkMan='" + linkman
+			+ "',HandSet='" + hand + "',Fax='" + fax + "',Email='"
+			+ email + "',Http='" + web + "',Intro='" + intr
+			+ "',IssueDate='" + showdate + "',Username='" + username
+			+ "'where ID= " + request.getParameter("code");
 	conn = connection.getConnection();
 	stmt = conn.createStatement();
-	sql = "select EnterpriseSort,EnterpriseName from tb_Enterprise where EnterpriseSort='"
-			+ style + "'and EnterpriseName='" + ename + "'";
-	try {
-		rs = stmt.executeQuery(sql);
-		if (rs.next()) {
+	boolean dd = stmt.execute(sql);
+	if (dd) {
 %>
 <script language="javascript">
-	alert("此企业信息已经发布！！");
-	history.back();
-</script>
-<%
-	} else {
-			wsql = "insert into tb_Enterprise values(null,'" + style
-					+ "','" + ename + "','" + operation + "','" + area
-					+ "','" + address + "','" + phone + "','" + linkman
-					+ "','" + hand + "','" + fax + "','" + email
-					+ "','" + web + "','" + intr + "','" + showdate
-					+ "','" + username + "')";
-			int dd = stmt.executeUpdate(sql);
-			if (dd > 0) {
-%>
-<script language="javascript">
-	alert("企业信息发布成功！！");
+	alert("企业信息修改成功！！");
 </script>
 <%
 	response.sendRedirect("enterprise_select.jsp");
-			}
-		}
-	} catch (Exception e) {
-		out.print("查询异常！1");
+	} else {
+%>
+<script language="javascript">
+	alert("企业信息修改失败！！");
+</script>
+<%
+	response.sendRedirect("enterprise_select.jsp");
 	}
 %>
 <body>

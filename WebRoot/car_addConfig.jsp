@@ -1,28 +1,73 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@ page contentType="text/html; charset=GB2312" import="java.util.Date"%><%@page import="java.sql.Connection"%><%@page import="java.sql.Statement"%>
+<jsp:directive.page import="com.xy.CountTime" />
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<jsp:useBean id="connection" scope="page" class="com.xy.JDBConnection" />
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'car_addConfig.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	<head>
+		<title>CarMessageadd_config page</title>
+	</head>
+	<%!
+	Connection conn;
+	PreparedStatement ps;
+	Date date = new Date();
+	String sql;%>
+	<%
+		request.setCharacterEncoding("gb2312");
 
-  </head>
-  
-  <body>
-    This is my JSP page. <br>
-  </body>
+		String numbers = request.getParameter("numbers");
+		String types = request.getParameter("type");
+		String carname = request.getParameter("carname");
+		String usetime = request.getParameter("usetime");
+		String loads = request.getParameter("loads");
+		String transtyle = request.getParameter("style");
+		String drivername = request.getParameter("name");
+		String number = request.getParameter("number");
+		String styles = request.getParameter("styles");
+		String drivertime = request.getParameter("time");
+		String meg = request.getParameter("meg");
+		String linkman = request.getParameter("linkman");
+		String phone = request.getParameter("phone");
+		//String gremark = request.getParameter("gremark");
+		String username = (String) session.getAttribute("name");
+		
+		CountTime time = new CountTime();
+
+		sql = "insert into tb_CarMessage (TradeMark,Brand,Style,CarLoad,UsedTime,DriverName,DriverTime,LicenceNumber,LicenceStyle,TransportStyle,LinkMan,LinkPhone,Remark,IssueDate,UserName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		conn = connection.getConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, numbers);
+		ps.setString(2, carname);
+		ps.setString(3, types);
+		ps.setString(4, loads);
+		ps.setString(5, usetime);
+		ps.setString(6, drivername);
+		ps.setString(7, drivertime);
+		ps.setString(8, number);
+		ps.setString(9, styles);
+		ps.setString(10, transtyle);
+		ps.setString(11, linkman);
+		ps.setString(12, phone);
+		ps.setString(13, meg);
+		ps.setString(14, time.currentlyTime());
+		ps.setString(15, username);
+		
+		int sert = ps.executeUpdate();
+		if (sert > 0 ) {
+	%>
+	<script language="javascript">
+		alert("您输入的车辆信息已经成功完成！！！");
+	</script>
+	<%
+		} else {
+	%>
+	<script language="javascript">
+alert("您输入的车辆信息插入失败！！！");
+</script>
+	<%
+		}
+		response.sendRedirect("car_select.jsp");
+	%>
+	<body bgcolor="#ffffff">
+	</body>
 </html>

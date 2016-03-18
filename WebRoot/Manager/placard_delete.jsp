@@ -10,10 +10,10 @@
 	<%
 		Connection conn = connection.getConnection();
 		Statement stmt = conn.createStatement();
-		String sql = "delete tb_Placard where ID="
+		String sql = "delete from tb_Placard where ID="
 				+ request.getParameter("id");
-		boolean dele = stmt.execute(sql);
-		if (dele) {
+		int dele = stmt.executeUpdate(sql);
+		if (dele > 0) {
 	%>
 	<script language="javascript">
 		alert("É¾³ý³É¹¦£¡£¡£¡");

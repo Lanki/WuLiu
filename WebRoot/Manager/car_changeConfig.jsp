@@ -1,28 +1,64 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page contentType="text/html; charset=gb2312"%>
+<%@ page import="java.sql.*,java.util.Date"%>
+<jsp:useBean id="connection" scope="page" class="com.xy.JDBConnection" />
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'car_select.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-  </head>
-  
-  <body>
-    This is my JSP page. <br>
-  </body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>CarMessage_change_config page</title>
+</head>
+<%!Connection conn;
+	Statement stmt;
+	Date date = new Date();
+	String sql;
+	ResultSet rs;%>
+<%
+	request.setCharacterEncoding("gb2312");
+	String numbers = request.getParameter("numbers");
+	String types = request.getParameter("type");
+	String carname = request.getParameter("carname");
+	String usetime = request.getParameter("usetime");
+	String loads = request.getParameter("loads");
+	String transtyle = request.getParameter("transtyle");
+	String drivername = request.getParameter("name");
+	String number = request.getParameter("number");
+	String styles = request.getParameter("styles");
+	String drivertime = request.getParameter("time");
+	String meg = request.getParameter("meg");
+	String linkman = request.getParameter("linkman");
+	String phone = request.getParameter("phone");
+	String gremark = request.getParameter("gremark");
+	String username = request.getParameter("username");
+	java.sql.Date showdate = new java.sql.Date(date.getYear(),
+			date.getMonth(), date.getDate());
+	sql = "update tb_CarMessage set TradeMark='" + numbers
+			+ "',Brand='" + carname + "',Style='" + types
+			+ "',CarLoad='" + loads + "',UsedTime='" + usetime
+			+ "',DriverName='" + drivername + "',DriverTime='"
+			+ drivertime + "',LicenceNumber='" + number
+			+ "',LicenceStyle='" + styles + "',TransportStyle='"
+			+ transtyle + "',LinkMan='" + linkman + "',LinkPhone='"
+			+ phone + "',Remark='" + meg + "',IssueDate='" + showdate
+			+ "',UserName='" + username + "' where Code="
+			+ request.getParameter("code");
+	conn = connection.getConnection();
+	stmt = conn.createStatement();
+	int sert = stmt.executeUpdate(sql);
+	if (sert > 0) {
+%>
+<script language="javascript">
+	alert("您输入的车辆信息已经修改成功！！！");
+</script>
+<%
+	response.sendRedirect("car_select.jsp");
+	} else {
+%>
+<script language="javascript">
+	alert("您输入的车辆信息修改失败！！！");
+	history.back();
+</script>
+<%
+	}
+%>
+<body bgcolor="#ffffff">
+</body>
 </html>

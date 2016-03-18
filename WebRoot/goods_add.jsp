@@ -99,7 +99,7 @@ return false;
 	<p align="center">
 		<b>货物信息发布</b>
 	</p>
-	<form method="POST" action="good_config.jsp" name="form1">
+	<form method="POST" action="goods_config.jsp" name="form1">
 		<table width="786" border="1" align="center" cellpadding="0"
 			cellspacing="0" bordercolor="#FFFFFF" bordercolordark="#333333"
 			bordercolorlight="#FFFFFF">

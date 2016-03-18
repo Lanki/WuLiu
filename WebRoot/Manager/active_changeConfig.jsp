@@ -27,8 +27,8 @@
 		sql = "update tb_logistics set Title='" + title + "',Content='"
 				+ content + "',Author='" + author + "',IssueDate='"
 				+ datatime + "' where ID=" + request.getParameter("id");;
-		boolean bb = stmt.execute(sql);
-		if (bb) {
+		int bb = stmt.executeUpdate(sql);
+		if (bb > 0) {
 	%>
 	<script language="javascript">
 		window.location.href = "active_select.jsp";

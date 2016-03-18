@@ -1,7 +1,9 @@
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@ page contentType="text/html; charset=GB2312"%>
 <%@ page import="java.util.Date"%>
+<jsp:directive.page import="com.xy.CountTime"/>
 <jsp:useBean id="connection" scope="page" class="com.xy.JDBConnection" />
 <html>
 <head>
@@ -9,7 +11,7 @@
 </head>
 <%!
 	Connection conn;
-	Statement stmt;
+	PreparedStatement ps;
 	String sql;
 	Date date = new Date();%>
 <body bgcolor="#ffffff">
@@ -18,14 +20,16 @@
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String author = request.getParameter("author");
-		java.sql.Date datatime = new java.sql.Date(date.getYear(),
-				date.getMonth(), date.getDate());
-		sql = "insert tb_logistics values('" + title + "','" + content
-				+ "','" + author + "','" + datatime + "')";
+		CountTime datatime = new CountTime();
+		sql = "insert into tb_logistics (Title,Content,Author,IssueDate)values(?,?,?,?)";
 		conn = connection.getConnection();
-		stmt = conn.createStatement();
-		boolean bb = stmt.execute(sql);
-		if (bb) {
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, title);
+		ps.setString(2, content);
+		ps.setString(3, author);
+		ps.setString(4, datatime.currentlyTime());
+		int bb = ps.executeUpdate();
+		if (bb > 0) {
 	%>
 	<script language="javascript">
 		alert("您输入的动态信息已经存储完成！！！");

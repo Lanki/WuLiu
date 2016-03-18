@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link href="CSS/style.css" type="text/css" rel="stylesheet">
 </head>
+<script src="js/check.js"></script>
 <script language="javascript">
       function check(){
 		if(form1.name.value==""){
@@ -52,7 +53,7 @@
 </script>
 <body>
 	<center>
-		<form method="POST" action="regist_config.jsp" name="form1">
+		<form method="POST" action="register_config.jsp" name="form1">
 
 			<table width="100%" border="0" align="center" cellpadding="0"
 				cellspacing="0">
@@ -140,13 +141,13 @@
 				<tr>
 					<td width="46%" height="27">
 						<p align="right">电话：</p></td>
-					<td width="54%"><input type="text" name="phone" size="20">
+					<td width="54%"><input type="text" name="phone" onblur="checkphone()" size="20">
 					</td>
 				</tr>
 				<tr>
 					<td width="46%" height="27">
 						<p align="right">Email：</p></td>
-					<td width="54%"><input type="text" name="email" size="20">
+					<td width="54%"><input type="text" name="email" onblur="checkemail()" size="20">
 					</td>
 				</tr>
 				<tr>

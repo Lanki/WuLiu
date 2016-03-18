@@ -1,3 +1,4 @@
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@ page contentType="text/html; charset=GB2312"%>
@@ -9,7 +10,7 @@
 </head>
 <%!
 	Connection conn;
-	Statement stmt;
+	PreparedStatement ps;
 	String sql;
 	Date date = new Date();%>
 <body bgcolor="#ffffff">
@@ -24,13 +25,15 @@
 				date.getMonth(), date.getDate());
 	
 		conn = connection.getConnection();
-		stmt = conn.createStatement();
-		sql = "insert tb_Placard values('" + title + "','" + content
-				+ "','" + author + "','" + datatime + "')";
+		sql ="insert into tb_placard (Title,Content,Author,IssueDate) values (?,?,?,?)";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, title);
+		ps.setString(2, content);
+		ps.setString(3, author);
+		ps.setString(4, datatime.toString());
+		int bb = ps.executeUpdate();
 
-		boolean bb = stmt.execute(sql);
-
-		if (bb) {
+		if (bb > 0) {
 	%>
 	<script language="javascript">
 		alert("您输入的公告信息已经成功完成！！！");

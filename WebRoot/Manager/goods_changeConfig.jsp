@@ -46,8 +46,8 @@
 				+ "',Remark='" + gremark + "',Request='" + grequest
 				+ "',UserName='" + username + "' where ID="
 				+ request.getParameter("code");
-		boolean sert = stmt.execute(sql);
-		if (sert) {
+		int sert = stmt.executeUpdate(sql);
+		if (sert > 0) {
 	%>
 	<script language="javascript">
 		alert("您输入的货物信息已经成功修改！！！");

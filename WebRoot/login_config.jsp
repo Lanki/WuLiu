@@ -13,14 +13,14 @@
 	request.setCharacterEncoding("gb2312");
 	String name = request.getParameter("name");
 	String password = request.getParameter("password");
-	if (name == "" && name == null && password == ""
-			&& password == null) {
+	if (name == "" && name == null && password == ""&& password == null)
+	{
 %>
 <jsp:forward page="index.jsp" />
-<%
-	} else {
+<%}
+	else {
 		try {
-			conn = JDBConnection.getConnection();
+			conn = connection.getConnection();
 			stmt = conn.createStatement();
 			String sql = "select * from tb_Customer where Name='"
 					+ name + "' and Password='" + password + "'";
